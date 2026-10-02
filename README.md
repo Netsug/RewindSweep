@@ -1,4 +1,4 @@
-# YouTube Watch History Keyword Cleaner (Chrome Extension)
+# RewindSweep - YouTube History Cleaner (Chrome Extension)
 
 A Chrome extension (Manifest V3) that automatically finds and deletes videos containing specific keywords (such as **"Cocomelon"**) from your **YouTube Watch History** and your **Chrome Browser History**.
 
@@ -31,7 +31,7 @@ A Chrome extension (Manifest V3) that automatically finds and deletes videos con
    ```
    /home/gusten/Desktop/chrome ext
    ```
-6. The extension **"YouTube Watch History Keyword Cleaner"** is now installed and ready to use!
+6. The extension **"RewindSweep"** is now installed and ready to use!
 
 ---
 
@@ -47,7 +47,7 @@ A Chrome extension (Manifest V3) that automatically finds and deletes videos con
 
 ### Method 2: Directly on YouTube
 1. Navigate to [https://www.youtube.com/feed/history](https://www.youtube.com/feed/history).
-2. A floating **"History Cleaner"** widget will appear in the bottom-right corner.
+2. A floating **"RewindSweep"** widget will appear in the bottom-right corner.
 3. Type your keyword into the widget's input box.
 4. Click **"Start Cleaning"**. You can minimize the widget at any time.
 

@@ -1,5 +1,5 @@
 /**
- * YouTube Watch History Keyword Cleaner
+ * RewindSweep - YouTube History Cleaner
  * Content Script running on YouTube
  */
 
@@ -7,10 +7,10 @@
   'use strict';
 
   // Prevent multiple injections
-  if (window.__YTHC_INJECTED__) return;
-  window.__YTHC_INJECTED__ = true;
+  if (window.__REWIND_SWEEP_INJECTED__) return;
+  window.__REWIND_SWEEP_INJECTED__ = true;
 
-  const LOG_PREFIX = '[YTHC History Cleaner]';
+  const LOG_PREFIX = '[RewindSweep]';
 
   // Execution state
   const STATE = {
@@ -108,7 +108,7 @@
       <div class="ythc-header" id="ythc-drag-header">
         <div class="ythc-header-left">
           <span class="ythc-logo-dot" id="ythc-pulse-dot"></span>
-          <span>History Cleaner</span>
+          <span>RewindSweep</span>
         </div>
         <div class="ythc-header-actions">
           <button class="ythc-icon-btn" id="ythc-filter-btn" title="Filter History on YouTube using native search">

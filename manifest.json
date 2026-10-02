@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Watch History Keyword Cleaner",
-  "version": "1.0.0",
+  "name": "RewindSweep - YouTube History Cleaner",
+  "version": "1.1.0",
   "description": "Automatically deletes YouTube videos containing specific keywords (e.g. 'Cocomelon') from your YouTube watch history and browser history.",
   "icons": {
     "16": "icons/icon16.png",
@@ -15,7 +15,7 @@
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     },
-    "default_title": "YouTube History Keyword Cleaner"
+    "default_title": "RewindSweep"
   },
   "background": {
     "service_worker": "background/background.js"

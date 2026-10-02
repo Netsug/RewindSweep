@@ -1,4 +1,4 @@
-// Background service worker for YouTube Watch History Keyword Cleaner
+// Background service worker for RewindSweep - YouTube History Cleaner
 
 chrome.runtime.onInstalled.addListener(() => {
   // Set default settings if not already initialized

@@ -1,5 +1,5 @@
 /**
- * Popup Script for YouTube Watch History Keyword Cleaner
+ * Popup Script for RewindSweep - YouTube History Cleaner
  */
 
 document.addEventListener('DOMContentLoaded', () => {
