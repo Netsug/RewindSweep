@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Watch History Keyword Cleaner",
+  "version": "1.0.0",
+  "description": "Automatically deletes YouTube videos containing specific keywords (e.g. 'Cocomelon') from your YouTube watch history and browser history.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "YouTube History Keyword Cleaner"
+  },
+  "background": {
+    "service_worker": "background/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content/content.js"],
+      "css": ["content/content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "history",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*"
+  ]
+}

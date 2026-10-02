@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Watch History Cleaner</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" rx="6" fill="#FF0000"/>
+          <path d="M7 6L14 12L7 18V6Z" fill="white"/>
+          <circle cx="17" cy="16" r="4.5" fill="#222" stroke="white" stroke-width="1.2"/>
+          <path d="M15.5 14.5L18.5 17.5M18.5 14.5L15.5 17.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <div class="logo-text">
+          <h1>YT History Cleaner</h1>
+          <span class="badge">v1.0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page status banner -->
+    <div id="tab-status" class="tab-status banner-neutral">
+      <span class="status-indicator"></span>
+      <span id="tab-status-text">Checking active tab...</span>
+      <button id="btn-open-history" class="btn-sm btn-link" style="display: none;">Open History</button>
+    </div>
+
+    <!-- Main settings form -->
+    <main class="main-content">
+      <div class="form-group">
+        <label for="keyword-input" class="form-label">
+          Keyword(s) to Delete
+          <span class="label-hint">Comma separated</span>
+        </label>
+        <div class="input-wrapper">
+          <input 
+            type="text" 
+            id="keyword-input" 
+            class="text-input" 
+            placeholder="Cocomelon"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <button id="btn-clear-input" class="btn-icon" title="Clear text" type="button">
+            &times;
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Options -->
+      <div class="options-container">
+        <label class="checkbox-label">
+          <input type="checkbox" id="opt-match-channel" checked>
+          <span class="custom-checkbox"></span>
+          <span>Match channel name (remove video even if not in title)</span>
+        </label>
+
+        <div class="speed-row">
+          <span class="speed-label">Removal Speed:</span>
+          <select id="opt-speed" class="select-input">
+            <option value="careful">Careful (1.5s)</option>
+            <option value="normal" selected>Normal (800ms)</option>
+            <option value="fast">Fast (400ms)</option>
+          </select>
+        </div>
+
+        <div class="speed-row">
+          <span class="speed-label">Stop after:</span>
+          <select id="opt-no-match-pages" class="select-input">
+            <option value="3">3 pages without matches</option>
+            <option value="5" selected>5 pages without matches</option>
+            <option value="10">10 pages without matches</option>
+            <option value="0">Never (scroll all)</option>
+          </select>
+        </div>
+
+        <label class="checkbox-label">
+          <input type="checkbox" id="opt-clean-chrome-history">
+          <span class="custom-checkbox"></span>
+          <span>Also delete from Chrome browser history</span>
+        </label>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button id="btn-start" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+          </svg>
+          Start Cleaning
+        </button>
+
+        <div id="btn-running-group" class="running-group" style="display: none;">
+          <button id="btn-pause" class="btn btn-secondary">Pause</button>
+          <button id="btn-stop" class="btn btn-danger">Stop</button>
+        </div>
+      </div>
+
+      <div class="filter-action-row">
+        <button id="btn-filter-yt" class="btn btn-secondary btn-sm-action" title="Filters YouTube history server-side using YouTube's native search bar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+          Filter on YouTube First
+        </button>
+      </div>
+
+      <!-- Stats section -->
+      <div class="stats-panel">
+        <div class="stat-card">
+          <span class="stat-num" id="stat-scanned">0</span>
+          <span class="stat-title">Scanned</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num text-matched" id="stat-matched">0</span>
+          <span class="stat-title">Found</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num text-deleted" id="stat-deleted">0</span>
+          <span class="stat-title">Deleted</span>
+        </div>
+      </div>
+
+      <!-- Live status tracker -->
+      <div class="live-tracker">
+        <div class="tracker-header">Status</div>
+        <div id="tracker-msg" class="tracker-content">Ready to clean YouTube watch history</div>
+      </div>
+
+      <!-- Clean Chrome History Only Button -->
+      <div class="secondary-actions">
+        <button id="btn-clean-chrome-only" class="btn-subtle" title="Cleans matches from Chrome's local URL history without affecting YouTube page">
+          Clean Chrome Browser History Only
+        </button>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>Tip: Works on YouTube Watch History page</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

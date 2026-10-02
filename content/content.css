@@ -1,0 +1,239 @@
+/* Floating on-page controller for YouTube History Cleaner */
+#ythc-floating-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  background: #181818;
+  color: #ffffff;
+  border: 1px solid #333333;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.75);
+  font-family: "Roboto", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+  width: 340px;
+  overflow: hidden;
+  transition: all 0.25s ease-in-out;
+  user-select: none;
+}
+
+#ythc-floating-widget.ythc-minimized {
+  width: auto;
+  min-width: 170px;
+  padding: 0;
+}
+
+#ythc-floating-widget.ythc-minimized .ythc-body {
+  display: none;
+}
+
+/* Header */
+.ythc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #212121;
+  border-bottom: 1px solid #2d2d2d;
+  cursor: pointer;
+}
+
+.ythc-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.ythc-logo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff0000;
+  display: inline-block;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+.ythc-logo-dot.ythc-pulse {
+  animation: ythc-pulse-anim 1.5s infinite;
+}
+
+@keyframes ythc-pulse-anim {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(255, 0, 0, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}
+
+.ythc-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ythc-icon-btn {
+  background: transparent;
+  border: none;
+  color: #aaaaaa;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ythc-icon-btn:hover {
+  background: #383838;
+  color: #ffffff;
+}
+
+/* Body */
+.ythc-body {
+  padding: 14px;
+}
+
+.ythc-input-group {
+  margin-bottom: 12px;
+}
+
+.ythc-label {
+  display: block;
+  font-size: 11px;
+  color: #aaaaaa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.ythc-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #0f0f0f;
+  border: 1px solid #3d3d3d;
+  color: #ffffff;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+}
+
+.ythc-input:focus {
+  border-color: #ff0000;
+}
+
+/* Stats grid */
+.ythc-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ythc-stat-box {
+  background: #222222;
+  border: 1px solid #2e2e2e;
+  border-radius: 6px;
+  padding: 8px 6px;
+  text-align: center;
+}
+
+.ythc-stat-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.ythc-stat-val.deleted {
+  color: #ff4d4d;
+}
+
+.ythc-stat-label {
+  font-size: 10px;
+  color: #888888;
+  margin-top: 2px;
+}
+
+/* Status message */
+.ythc-status-bar {
+  background: #141414;
+  border-radius: 6px;
+  padding: 7px 10px;
+  margin-bottom: 12px;
+  font-size: 11px;
+  color: #cccccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-left: 3px solid #666666;
+}
+
+.ythc-status-bar.active {
+  border-left-color: #ff0000;
+}
+
+.ythc-status-bar.completed {
+  border-left-color: #00cc66;
+  color: #00e676;
+}
+
+/* Control buttons */
+.ythc-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.ythc-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+
+.ythc-btn-primary {
+  background: #ff0000;
+  color: #ffffff;
+}
+
+.ythc-btn-primary:hover {
+  background: #cc0000;
+}
+
+.ythc-btn-secondary {
+  background: #333333;
+  color: #ffffff;
+}
+
+.ythc-btn-secondary:hover {
+  background: #444444;
+}
+
+.ythc-btn-danger {
+  background: #442222;
+  color: #ff7777;
+}
+
+.ythc-btn-danger:hover {
+  background: #552828;
+}
+
+.ythc-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Highlight video card in YouTube DOM */
+.ythc-highlight-delete {
+  outline: 2px solid #ff0000 !important;
+  background-color: rgba(255, 0, 0, 0.08) !important;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
