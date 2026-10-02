@@ -111,11 +111,6 @@
           <span>RewindSweep</span>
         </div>
         <div class="ythc-header-actions">
-          <button class="ythc-icon-btn" id="ythc-filter-btn" title="Filter History on YouTube using native search">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-            </svg>
-          </button>
           <button class="ythc-icon-btn" id="ythc-min-btn" title="Minimize / Expand">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 13H5v-2h14v2z"/>
@@ -158,12 +153,6 @@
     minBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       widget.classList.toggle('ythc-minimized');
-    });
-
-    const filterBtn = widget.querySelector('#ythc-filter-btn');
-    filterBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      triggerNativeHistorySearch(currentKeyword);
     });
 
     const kwInput = widget.querySelector('#ythc-input-keyword');
@@ -304,27 +293,6 @@
       .filter((k) => k.length > 0);
   }
 
-  /**
-   * Trigger YouTube's native watch history search input
-   */
-  function triggerNativeHistorySearch(term) {
-    if (!term) return;
-    const searchInputs = document.querySelectorAll(
-      'input[placeholder*="history" i], input[placeholder*="historik" i], input[aria-label*="history" i], #search-input input, ytd-searchbox input#search, input#search'
-    );
-    for (const input of searchInputs) {
-      // Avoid the main top navigation searchbar if a history-specific one is present
-      if (!input.closest('#masthead, ytd-masthead')) {
-        input.focus();
-        input.value = term;
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-        input.dispatchEvent(new Event('change', { bubbles: true }));
-        input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
-        console.log(LOG_PREFIX, 'Triggered native history search with:', term);
-        return;
-      }
-    }
-  }
 
   /**
    * Query all video card elements across both modern and legacy YouTube DOM
@@ -979,11 +947,6 @@
       return false;
     }
 
-    if (request.action === 'FILTER_ON_YOUTUBE') {
-      triggerNativeHistorySearch(request.keyword || currentKeyword);
-      sendResponse({ success: true });
-      return false;
-    }
 
     if (request.action === 'GET_STATUS') {
       sendResponse({

@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const optCleanChromeHistory = document.getElementById('opt-clean-chrome-history');
 
   const btnStart = document.getElementById('btn-start');
-  const btnFilterYt = document.getElementById('btn-filter-yt');
   const btnRunningGroup = document.getElementById('btn-running-group');
   const btnPause = document.getElementById('btn-pause');
   const btnStop = document.getElementById('btn-stop');
@@ -108,27 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Filter on YouTube button
-  if (btnFilterYt) {
-    btnFilterYt.addEventListener('click', () => {
-      const keyword = keywordInput.value.trim();
-      if (!keyword) {
-        alert('Please enter a keyword to filter');
-        return;
-      }
-      saveSettings();
-
-      if (!isOnHistoryPage) {
-        chrome.runtime.sendMessage({ action: 'OPEN_YOUTUBE_HISTORY' }, () => {
-          window.close();
-        });
-        return;
-      }
-
-      chrome.tabs.sendMessage(activeTabId, { action: 'FILTER_ON_YOUTUBE', keyword: keyword });
-      trackerMsg.textContent = `Applied filter "${keyword}" on YouTube history page.`;
-    });
-  }
 
   // Start Cleaning button
   btnStart.addEventListener('click', () => {

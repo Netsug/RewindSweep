@@ -261,22 +261,6 @@ body {
   gap: 8px;
 }
 
-.filter-action-row {
-  display: flex;
-}
-
-.btn-sm-action {
-  padding: 7px 12px;
-  font-size: 11px;
-  background: #252525;
-  color: #cccccc;
-  border: 1px solid #333333;
-}
-
-.btn-sm-action:hover {
-  background: #333333;
-  color: #ffffff;
-}
 
 .btn {
   width: 100%;
