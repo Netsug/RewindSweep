@@ -31,7 +31,6 @@
   "permissions": [
     "storage",
     "activeTab",
-    "scripting",
     "history",
     "tabs"
   ],
