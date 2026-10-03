@@ -1,75 +1,89 @@
-# RewindSweep - YouTube History Cleaner (Chrome Extension)
+# RewindSweep
 
-A Chrome extension (Manifest V3) that automatically finds and deletes videos containing specific keywords (such as **"Cocomelon"**) from your **YouTube Watch History** and your **Chrome Browser History**.
+A Manifest V3 Chrome extension to batch-remove specific videos from your YouTube account watch history and local Chrome history based on user-defined keywords.
+
+Useful for scrubbing recommendations after sharing an account or clearing out specific recurring topics (such as kids' content like *Cocomelon* or temporary search rabbit holes) without having to wipe your entire viewing history.
 
 ---
 
 ## Features
 
-- **Deletes from YouTube Account History**: Programmatically clicks YouTube's native remove/dismiss buttons so that matching videos are removed from your YouTube account and will no longer influence your video recommendations.
-- **In-Page Floating Widget**: An on-page control bar automatically appears when you visit `https://www.youtube.com/feed/history`, providing live progress counters (Scanned, Found, Deleted) and Start/Pause/Stop controls.
-- **Chrome Browser History Cleaning**: Optionally deletes matching YouTube URLs from Chrome's local history database (`chrome.history` API).
-- **Multi-Keyword Support**: Enter multiple keywords separated by commas (e.g. `Cocomelon, nursery, rhymes`).
-- **Channel Name Matching**: Toggle to also match and remove videos by channel/creator name.
-- **Adjustable Removal Speed**:
-  - **Careful (1.5s delay)**: Recommended for large histories to prevent YouTube rate-limiting.
-  - **Normal (800ms delay)**: Balanced speed and reliability.
-  - **Fast (400ms delay)**: Rapid cleaning.
-- **Automatic Infinite Scrolling & Smart Stopping**: Automatically scrolls down and waits for YouTube to fetch older history items, and automatically stops scrolling if no matching videos are found for 5 consecutive pages.
-- **Configurable Stop Threshold**: Choose to stop after 3, 5, 10 empty pages, or keep scrolling until the end of history.
-- **International & Layout Resilient**: Supports YouTube's dismiss button across multiple languages, SVG icon matching, and 3-dot dropdown fallback.
+- **Account-Level Removal**: Interacts directly with YouTube's interface to trigger native video removals. Removed videos are cleared from your Google account and will no longer influence the recommendation algorithm.
+- **Chrome History Cleanup**: Optionally queries and removes matching YouTube URLs from local browser history via the `chrome.history` API.
+- **Keyword & Creator Filtering**: Filter by video titles, creator names, or both. Supports comma-delimited keyword lists.
+- **Rate-Limiting Controls**: Configurable request pacing to avoid YouTube front-end throttling:
+  - *Careful (1500ms)*: Best for large histories or strict rate limits.
+  - *Normal (800ms)*: Recommended balance between speed and reliability.
+  - *Fast (400ms)*: Accelerated batch removal.
+- **Automated Scrolling & Threshold Stopping**: Automatically loads older history entries and halts execution when no matching videos appear across a selectable threshold of consecutive page loads (e.g., 3, 5, or 10 empty pages).
+- **Dual Control Interface**: Manage scans via the standard Chrome extension popup or directly through an overlay widget injected into `youtube.com/feed/history`.
 
 ---
 
-## How to Install in Google Chrome
+## Installation
 
-1. Open Google Chrome.
-2. In the address bar, navigate to `chrome://extensions/`.
-3. In the top-right corner, turn **ON** **Developer mode**.
-4. Click the **Load unpacked** button in the top-left corner.
-5. Select this folder:
+Because this extension is not currently published on the Chrome Web Store, install it directly in developer mode:
+
+1. Clone this repository or download and extract the source ZIP:
+   ```bash
+   git clone https://github.com/Netsug/RewindSweep.git
    ```
-   /home/gusten/Desktop/chrome ext
-   ```
-6. The extension **"RewindSweep"** is now installed and ready to use!
+2. Open Google Chrome and navigate to `chrome://extensions/`.
+3. Enable **Developer mode** using the toggle in the top-right corner.
+4. Click **Load unpacked** in the top-left corner.
+5. Select the project directory (the folder containing `manifest.json`).
 
 ---
 
-## How to Use
+## Usage
 
-### Method 1: Using the Extension Popup
-1. Click the extension icon in your Chrome toolbar (pin it for quick access).
-2. If you are not already on YouTube History, click **"Open History"** to navigate directly to `https://www.youtube.com/feed/history`.
-3. Enter your keyword (placeholder is `Cocomelon`, or type your custom keywords separated by commas).
-4. Configure any optional settings (speed, channel matching, Chrome browser history).
-5. Click **"Start Cleaning"**.
-6. Watch the live counters update as matching videos are highlighted and removed in real time.
+### Option 1: Via the Extension Popup
+1. Click the **RewindSweep** icon in the Chrome toolbar.
+2. If you are not on YouTube, click **Open History** to navigate to `https://www.youtube.com/feed/history`.
+3. Input your target keywords separated by commas (e.g., `Cocomelon, nursery, rhymes`).
+4. Set your removal speed, channel matching preferences, and whether to clear local Chrome history.
+5. Click **Start Cleaning**.
 
-### Method 2: Directly on YouTube
-1. Navigate to [https://www.youtube.com/feed/history](https://www.youtube.com/feed/history).
-2. A floating **"RewindSweep"** widget will appear in the bottom-right corner.
-3. Type your keyword into the widget's input box.
-4. Click **"Start Cleaning"**. You can minimize the widget at any time.
+### Option 2: Via the In-Page Widget
+1. Go directly to [YouTube Watch History](https://www.youtube.com/feed/history).
+2. Use the floating control panel docked in the bottom-right corner.
+3. Add your target keywords and click **Start Cleaning**. You can pause, resume, or minimize the widget at any time.
+
+---
+
+## Permissions Explained
+
+RewindSweep uses Manifest V3 and requests only the permissions necessary to function:
+
+| Permission | Purpose |
+| :--- | :--- |
+| `history` | Required only if the option to delete matching entries from local browser history is enabled. |
+| `storage` | Saves your preferences, keywords, and pacing settings locally across sessions. |
+| `tabs` | Directs you to the YouTube history page from the popup menu. |
+| `*://*.youtube.com/*` | Allows the content script to detect matching items, inject the widget, and automate dismiss button clicks. |
+
+No user data, browsing history, or account credentials leave your browser.
 
 ---
 
 ## Project Structure
 
-```
-chrome ext/
-├── manifest.json            # Manifest V3 configuration
+```text
+├── manifest.json        # Extension configuration (Manifest V3)
 ├── background/
-│   └── background.js        # Service worker (handles Chrome history & tabs)
+│   └── background.js    # Service worker handling tab navigation and Chrome history API
 ├── content/
-│   ├── content.js           # Content script (DOM interaction, scrolling, deletion)
-│   └── content.css          # Styling for in-page floating widget & highlights
+│   ├── content.js       # Content script (DOM inspection, scrolling, removal execution)
+│   └── content.css      # Styling for the injected floating widget and highlights
 ├── popup/
-│   ├── popup.html           # Extension popup interface
-│   ├── popup.css            # Popup stylesheet (YouTube dark theme)
-│   └── popup.js             # Popup controls and state synchronization
-├── icons/
-│   ├── icon16.png           # 16x16 icon
-│   ├── icon48.png           # 48x48 icon
-│   └── icon128.png          # 128x128 icon
-└── README.md                # Documentation and setup guide
+│   ├── popup.html       # Popup layout
+│   ├── popup.css        # Popup styling
+│   └── popup.js         # Configuration handling and UI sync
+└── icons/               # Extension icons (16px, 48px, 128px)
 ```
+
+---
+
+## License
+
+This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
